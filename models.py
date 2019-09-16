@@ -1,4 +1,3 @@
-import datetime
 from peewee import *
 
 db = SqliteDatabase('news.db')
@@ -9,10 +8,10 @@ class BaseModel(Model):
         database = db
 
 
-class News(Model):
-    text = CharField()
+class NewsModel(Model):
+    title = CharField()
     url = TextField()
-    created = DateField(default=datetime.date.today)
+    created = DateTimeField()
 
     class Meta:
         database = db
@@ -21,4 +20,4 @@ class News(Model):
 
 def create_tables():
     with db:
-        db.create_tables([News])
+        db.create_tables([NewsModel])
