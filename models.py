@@ -1,6 +1,7 @@
 from peewee import *
+from config import SQLITE_DATABASE_NAME
 
-db = SqliteDatabase('news.db')
+db = SqliteDatabase(SQLITE_DATABASE_NAME)
 
 
 class BaseModel(Model):
@@ -16,6 +17,11 @@ class NewsModel(Model):
     class Meta:
         database = db
         db_table = 'news'
+
+
+    @staticmethod
+    def get_fields():
+        return NewsModel._meta.sorted_field_names
 
 
 def create_tables():

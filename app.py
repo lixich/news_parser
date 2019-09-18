@@ -1,5 +1,5 @@
 import scheduler
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from handlers import register_blueprints
 
