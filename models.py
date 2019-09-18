@@ -18,7 +18,6 @@ class NewsModel(Model):
         database = db
         db_table = 'news'
 
-
     @staticmethod
     def get_fields():
         return NewsModel._meta.sorted_field_names

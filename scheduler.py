@@ -10,9 +10,9 @@ SELECTOR = '.storylink'
 
 
 def load_news():
-    news_models = get_news()
+    news_dicts = get_news()
     with db.atomic():
-        NewsModel.insert_many(news_models).execute()
+        NewsModel.insert_many(news_dicts).execute()
         print('success insert')
 
 
@@ -20,15 +20,15 @@ def get_news():
     r = requests.get(MAIN_NEWS_LINK)
     soup = BeautifulSoup(r.text, 'html.parser')
     news = soup.select(SELECTOR)
-    news_models = []
+    news_dicts = []
     created = datetime.utcnow().isoformat()
     for one_news in news:
-        news_models.append({
+        news_dicts.append({
             'title': one_news.text,
             'url': one_news['href'] if 'href' in one_news.attrs else None,
             'created': created
         })
-    return news_models
+    return news_dicts
 
 
 def init():

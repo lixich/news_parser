@@ -1,9 +1,10 @@
 from flask import jsonify
 
-# TODO add errors
 http_errors = {
     400: 'Bad request',
-    404: 'Not found'
+    401: 'Unauthorized',
+    403: 'Forbidden',
+    404: 'Not found',
 }
 
 
