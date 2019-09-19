@@ -1,3 +1,4 @@
 flask
 apscheduler
 peewee
+flask_cors
