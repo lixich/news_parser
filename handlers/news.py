@@ -1,7 +1,8 @@
 import json
 from flask import Blueprint, jsonify, request
-from models import NewsModel
+from models import db, NewsModel
 from .error import generate_error
+from scheduler import parse_news
 
 app_url = Blueprint('', __name__)
 
@@ -38,4 +39,12 @@ def get_news():
 
     news_dicts = list(query.dicts())
 
+    return jsonify(json.dumps(news_dicts))
+
+
+@app_url.route('/update', methods=['GET'])
+def update_news():
+    news_dicts = parse_news()
+    with db.atomic():
+        NewsModel.insert_many(news_dicts).execute()
     return jsonify(json.dumps(news_dicts))
