@@ -1,5 +1,5 @@
 flask
-apscheduler
+flask_apscheduler
 peewee
 flask_cors
 requests

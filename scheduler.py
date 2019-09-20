@@ -1,12 +1,26 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
+from flask_apscheduler import APScheduler
 from config import PARSER_NEWS_COUNT, PARSER_INTERVAL_SECONDS
 from models import NewsModel, db
 
 MAIN_NEWS_LINK = 'https://news.ycombinator.com/'
 SELECTOR = '.storylink'
+
+
+class Config(object):
+    JOBS = [
+        {
+            'id': 'load_news',
+            'func': 'scheduler:load_news',
+            'args': (),
+            'trigger': 'interval',
+            'seconds': PARSER_INTERVAL_SECONDS
+        }
+    ]
+
+    SCHEDULER_API_ENABLED = True
 
 
 def load_news():
@@ -31,7 +45,7 @@ def parse_news():
     return news_dicts
 
 
-def init():
-    background_scheduler = BackgroundScheduler(daemon=True)
-    background_scheduler.add_job(load_news, 'interval', seconds=PARSER_INTERVAL_SECONDS)
-    background_scheduler.start()
+def init(app):
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
