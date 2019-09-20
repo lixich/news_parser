@@ -45,7 +45,10 @@ def get_news():
 
 @app_url.route('/update', methods=['GET'])
 def update_news():
-    news_dicts = parse_news()
-    with db.atomic():
-        NewsModel.insert_many(news_dicts).execute()
-    return jsonify(news_dicts)
+    try:
+        news_dicts = parse_news()
+        with db.atomic():
+            NewsModel.insert_many(news_dicts).execute()
+        return jsonify(news_dicts)
+    except Exception as e:
+        return generate_error(500, str(e))
