@@ -10,4 +10,4 @@ CORS(app, supports_credentials=True)
 register_blueprints(app)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=True)

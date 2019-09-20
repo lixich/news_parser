@@ -2,3 +2,5 @@ flask
 apscheduler
 peewee
 flask_cors
+requests
+bs4
